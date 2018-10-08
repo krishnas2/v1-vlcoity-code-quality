@@ -116,25 +116,6 @@ canvas {
 		gapi.client.setApiKey('YOUR_API_KEY'); //set your API KEY
 		gapi.client.load('plus', 'v1',function(){});//Load Google + API
 	}
-	function loginCallback(result)
-	{
-		if(result['status']['signed_in'])
-		{ 
-			alert("Login Success");
-		}   
-	 
-	}
-	function login() 
-{
-  var myParams = {
-    'clientid' : '395825471326-8qu9odkhljioj10di7vpviccu171mmtb.apps.googleusercontent.com',
-    'cookiepolicy' : 'single_host_origin',
-    'callback' : 'loginCallback',
-    'approvalprompt':'force',
-    'scope' : 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.profile.emails.read'
-  };
-  gapi.auth.signIn(myParams);
-}
 </script>
 </head>
 <body>
@@ -235,7 +216,7 @@ function particlesCtrl($scope,$http) {
 	}
 	$scope.authenticate = function (){
 		 var myParams = {
-			'clientid' : '395825471326-8qu9odkhljioj10di7vpviccu171mmtb.apps.googleusercontent.com',
+			'clientid' : '914568398758-pdf9nqmfmtdaqi75sbarikfstojd9bag.apps.googleusercontent.com',
 			'cookiepolicy' : 'single_host_origin',
 			'callback' : $scope.loginCallback,
 			'approvalprompt':'force',
