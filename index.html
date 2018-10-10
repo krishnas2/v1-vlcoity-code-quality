@@ -99,7 +99,19 @@ position: absolute;
 <div id="Handshake" class="container-fluid">
 <h1 class="container"> Step 1 : Handshake </h1>
 <form class="form-horizontal" class="form-inline" role="form" name="handform" ng-show="showprocess">
+
 <div class="form-group">
+		<label for="instance_url" class="col-sm-3 control-label">Verify Instance</label>
+				<div class="form-group">
+            
+            <div class="col-sm-4">
+                <input type="text" id="instance_url" class="form-control" ng-model="SFDCOrgData.instance_url" name="envusername" />
+            </div>
+            <div class="col-sm-3"></div>
+         </div>
+				<div class="col-sm-3"></div>
+		</div>
+<!--<div class="form-group">
 		<label for="Upload Type" class="col-sm-3 control-label">Upload Type</label>
 				<div class="col-sm-4">
 				 <select class="form-control" ng-model="upldtype" ng-options="x for x in ['Upload','Formfilling']" required>
@@ -107,14 +119,14 @@ position: absolute;
 					</select>
 				</div>
 				<div class="col-sm-3"></div>
-		</div>
-
+		</div>-->
+		<!--
 		<div ng-show="upldtype=='Formfilling'">
 		<div class="form-group">
             <label for="username" class="col-sm-3 control-label">Org Username</label>
             <div class="col-sm-4">
                 <input type="text" id="firstName" class="form-control" ng-model="details.username" name="envusername"required="true"/>
-				<!--<div ng-show="handform.email.$error.email" class="error">Invalid Username!</div>-->
+				<!--<div ng-show="handform.email.$error.email" class="error">Invalid Username!</div>
                 <div ng-show="handform.envusername.$error.required &amp;&amp; handform.envusername.$touched" class="error">Required!</div>
             </div>
             <div class="col-sm-3"></div>
@@ -173,11 +185,12 @@ position: absolute;
 				</div>
 		</div>
 
-      </div>
+      </div>-->
 	  <div class="row">
     <div class="col-xs-11">
         <div class="text-right">
-            <button type="button" class="btn btn-danger" ng-click="captureddetails()" ng-disabled="(details.username ==null) ||(details.password==null) ||(details.clientid==null) || (details.clientsecret==null) ||(details.env==null)">Connect</button>
+            <!--<button type="button" class="btn btn-danger" ng-click="captureddetails()" ng-disabled="(details.username ==null) ||(details.password==null) ||(details.clientid==null) || (details.clientsecret==null) ||(details.env==null)">Connect</button>-->
+			 <button type="button" class="btn btn-danger" ng-click="captureddetails()" ng-disabled="(SFDCOrgData ==null)">Continue</button>
         </div>
     </div>
 </div>
@@ -368,6 +381,18 @@ app.config(['$compileProvider', function ($compileProvider) {
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(|blob|):/);
 }]);
 app.controller('utController', function($scope,$http, socket,$window) {
+if (window.location.hash) {
+	var message = decodeURIComponent(window.location.hash.substr(1)),
+	params = message.split('&'),
+	response = {};
+	params.forEach(function (param) {
+		var splitter = param.split('=');
+		response[splitter[0]] = splitter[1];
+	});
+	console.log(response); //POST request to be made
+	$scope.SFDCOrgData = response;
+	window.location.href = "#Handshake";
+}
 $scope.handshakesuccess=false;
 $scope.showsfdcconlog=true;
 $scope.showobjectconlog=true;
@@ -505,7 +530,9 @@ $scope.showjiraSuccess=true;
   
   $scope.captureddetails=function(){
 	$scope.showhandshakeprogress=true;
-	socket.emit('sfdcdetails', $scope.details);
+	socket.emit('sfdcdetails', $scope.SFDCOrgData);
+	//socket.emit('sfdcdetails', $scope.details);
+	
   }
   $scope.capturedobj=function(){
   $scope.objjobscon='';
