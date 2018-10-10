@@ -514,7 +514,12 @@ f='d';
 		   console.log('came here1');
 		   client.emit('sfdccoms', 20);
 		   client.emit('sfdccomslog', 'Execution Started');
-	var headers={
+	client.emit('sfdccomslog', 'connection established');
+	client.emit('sfdccoms', 100);
+		access_token=data["Handshake#access_token"];
+		   instance_url=data.instance_url;
+console.log(access_token,instance_url);
+	/*var headers={
 		'Content-Type':'application/json'
 	},
 	data={
@@ -571,7 +576,7 @@ f='d';
 				console.log('error',e);
 				client.emit('sfdccomslog','There is an Error'+e);
 			}
-		});
+		});*/
 		
 	});
 	req.on('error',(e)=>{
