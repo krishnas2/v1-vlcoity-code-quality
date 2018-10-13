@@ -183,7 +183,18 @@ function particlesCtrl($scope,$http) {
 	$scope.showSuccess = false; // set Success Flag
 
 	//------- Authenticate function
+	function apiClientLoaded() {
+	    gapi.client.plus.people.get({userId: 'me'}).execute(handleEmailResponse);
+	  }
+	 function handleEmailResponse(resp) {
+	    var primaryEmail;
+	    for (var i=0; i < resp.emails.length; i++) {
+	      if (resp.emails[i].type === 'account') primaryEmail = resp.emails[i].value;
+	    }
+	    alert('Primary email: ' +	primaryEmail + '\n\nFull Response:\n' + JSON.stringify(resp));
+	  }
 	$scope.loginCallbackGoogle = function(data){
+		gapi.client.load('plus', 'v1', apiClientLoaded);
 		var flag= true;
 		/*for(var i in validUsers){ // loop on users array
 			if($scope.user.username == validUsers[i].username && $scope.user.password == validUsers[i].password){
