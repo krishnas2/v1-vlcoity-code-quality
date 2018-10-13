@@ -183,7 +183,7 @@ function particlesCtrl($scope,$http) {
 	$scope.showSuccess = false; // set Success Flag
 
 	//------- Authenticate function
-	$scope.loginCallbackGoogle = function(){
+	$scope.loginCallbackGoogle = function(data){
 		var flag= true;
 		/*for(var i in validUsers){ // loop on users array
 			if($scope.user.username == validUsers[i].username && $scope.user.password == validUsers[i].password){
