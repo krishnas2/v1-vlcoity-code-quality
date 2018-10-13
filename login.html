@@ -14,13 +14,13 @@ canvas {
 #particleJs {
   position: absolute;
   width: 100%;
-  height: 100%;
-  background-color: #6762a6;
+  height: 99%;
+  background-color: rgb(0, 200, 220);
 }
 
 .center_div{
     margin: 0 auto;
-    width:80% ;
+    width:100% ;
 	color:#fff;
 }
 .login-container{
@@ -96,6 +96,53 @@ canvas {
 .loginBtn--google:focus {
   background: #E74B37;
 }
+.loginBtn--CC:before {
+	border-right: #d63116 1px solid;
+	background: url(CodeCheck_Logo.png) no-repeat;
+	background-size: cover;
+}
+.loginBtn--CC{
+    color: #e53012;
+    background-color: #002e5d;
+}
+.loginBtn--CC:hover,
+.loginBtn--CC:focus {
+  background: #01203f;
+}
+.BrandImage{
+display:inline-block!important;
+}
+.navbar{
+background-color:rgba(0, 46, 93, 1)!important;
+border-color:#0463c4!important;
+}
+.navbar-brand{
+color:white!important;
+}
+.closeLogin{
+	height: 20px;
+    width: 20px;
+    font-size: 10px;
+    background-image: url(glyphicons_free/glyphicons_free/glyphicons/png/glyphicons-208-remove.png);
+    background-repeat: no-repeat;
+    float: right;
+}
+[name='myForm']{
+	background-color: white;
+	color: black;
+}
+.TextCenterAlign{
+	text-align:center;
+}
+.BoldLargeHeaderCursive{
+	font-family: cursive;
+	font-size: x-large;
+	font-weight: bold;
+}
+.LightCursive{
+	font-family: cursive;
+	font-weight: 600;
+}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -119,16 +166,133 @@ canvas {
 </script>
 </head>
 <body>
-
 <div ng-controller="particlesCtrl">
+<nav class="navbar navbar-inverse  navbar-fixed-top ">
+  <a class="navbar-brand" href="#process"><img src="CodeCheck_Logo.png" height="25" class="BrandImage" >VloCheck</a>
+
+  <div class="container-fluid">
+    
+	<div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" >
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      
+    </div>
+	
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#process">Home</a></li>
+        <li><a href="#Handshake">Handshake <span class="glyphicon  btn-success " ng-show="handshakesuccess">&#xe013;</span></a> </li>
+        <li><a href="#Object">Object<span class="glyphicon  btn-success " ng-show="objectsuccess">&#xe013;</span></a></li>
+		<li><a href="#JIRA"><span class="glyphicon  btn-success " ng-show="showjiraSuccess">&#xe013;</span>JIRA</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#" title="Login" ng-click="ShowLoginOptions()"><span class="glyphicon glyphicon-user"></span> {{username}}</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
     <div particles-drv ng-show="showParticles"></div>
-	<div class="container center_div" >
+	<div class="container center_div" ng-show="LoginOptions">
 	<br><br><br>
+	<div class="closeLogin" role="button" ng-click="ShowLoginOptions()" ></div>
+		<form name="myForm">
+			<div class="login-container">
+				<div class="TextCenterAlign row">
+					<div class="col-md-12">
+					  
+						  <div class="form-group">
+							<div class="BoldLargeHeaderCursive LoginOptionsBanner"><span>Let's Sign in</span></div>
+							<div class="LightCursive LoginOptionsBanner"><span><a href="#" ng-click="ShowRegistrationForm()">Register</a> with us for full code scan! </span></div>
+						  </div>
+					</div>
+					<div class="col-md-12">
+						  <div class="form-group">
+							<button ng-click="authenticateGoogle()"  class="loginBtn loginBtn--google pull-left">Login</button> 
+							<button ng-click="ShowLogin()" class="CCThemeButton loginBtn loginBtn--CC pull-right">Login</button>
+						  </div>
+					</div>
+					
+				</div>
+			</div>
+		</form>
+		
+	</div>
+	<div class="container center_div" ng-show="RegistrationForm">
       <form name="myForm">
         <div class="login-container">
 		
           <div class="row">
 		  <div class="col-md-12">
+		  <div class="closeLogin" role="button" ng-click="ShowRegistrationForm()" ></div>
+              <div class="form-group">
+                <h2> Enter Details</h2>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="email" ng-model="user.username" required class="form-control">
+                <div ng-show="myForm.email.$error.email" class="error">Invalid Username!</div>
+                <div ng-show="myForm.email.$error.required &amp;&amp; myForm.email.$touched" class="error">Required!</div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="pass" ng-model="user.password" required class="form-control">
+                <div ng-show="myForm.pass.$error.required &amp;&amp; myForm.pass.$touched" class="error">Required!</div>
+              </div>
+            </div>
+			<div class="col-md-12">
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="text" name="email" ng-model="user.username" required class="form-control">
+                <div ng-show="myForm.email.$error.email" class="error">Invalid Email format!</div>
+                <div ng-show="myForm.email.$error.required &amp;&amp; myForm.email.$touched" class="error">Required!</div>
+              </div>
+            </div>
+			<div class="col-md-12">
+              <div class="form-group">
+                <label>Mobile#</label>
+                <input type="text" name="email" ng-model="user.username" required class="form-control">
+                <div ng-show="myForm.email.$error.email" class="error">Invalid Mobile#</div>
+                <div ng-show="myForm.email.$error.required &amp;&amp; myForm.email.$touched" class="error">Required!</div>
+              </div>
+            </div>
+			<div class="col-md-12">
+              <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" name="pass" ng-model="user.password" required class="form-control">
+                <div ng-show="myForm.pass.$error.required &amp;&amp; myForm.pass.$touched" class="error">Passwords doesn't match!</div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <button ng-click="RegisterUser()" ng-disabled="myForm.$invalid" class="btn btn-success pull-right">Go</button>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div ng-show="showError" class="alert alert-danger">Wrong credentials!</div>
+              <div ng-show="showSuccess" class="alert alert-success">Login Successful! Redirecting... Please wait</div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+	<div class="container center_div" ng-show="ShowLoginForm">
+      <form name="myForm">
+        <div class="login-container">
+		
+          <div class="row">
+		  <div class="col-md-12">
+		  <div class="closeLogin" role="button" ng-click="ShowLogin()" ></div>
               <div class="form-group">
                 <h2> Enter Details</h2>
               </div>
@@ -150,15 +314,13 @@ canvas {
             </div>
             <div class="col-md-12">
               <div class="form-group">
-		<button ng-click="authenticateGoogle()"  class="loginBtn loginBtn--google pull-left">Login</button>
-                <button ng-click="authenticate()" ng-disabled="myForm.$invalid" class="btn btn-success pull-right">Login</button>
+                <button ng-click="authenticate()" ng-disabled="myForm.$invalid" class="btn btn-success pull-right">Go</button>
                 <div class="clearfix"></div>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-12">
-		    <div class='btn'><h2>Username:kkj Password:admin</h2> </div>
               <div ng-show="showError" class="alert alert-danger">Wrong credentials!</div>
               <div ng-show="showSuccess" class="alert alert-success">Login Successful! Redirecting... Please wait</div>
             </div>
@@ -174,6 +336,9 @@ app.directive('particlesDrv', ['$window', '$log', particlesDrv]);
 
 function particlesCtrl($scope,$http) {
   $scope.showParticles = true;
+  $scope.ShowLoginForm = false;
+  $scope.LoginOptions = false;
+  $scope.RegistrationForm = false;
   var validUsers= [ 
 		{'username':'kkj', 'password':'admin'},
 		{'username':'rama', 'password':'admin'},
@@ -183,18 +348,7 @@ function particlesCtrl($scope,$http) {
 	$scope.showSuccess = false; // set Success Flag
 
 	//------- Authenticate function
-	function apiClientLoaded() {
-	    gapi.client.plus.people.get({userId: 'me'}).execute(handleEmailResponse);
-	  }
-	 function handleEmailResponse(resp) {
-	    var primaryEmail;
-	    for (var i=0; i < resp.emails.length; i++) {
-	      if (resp.emails[i].type === 'account') primaryEmail = resp.emails[i].value;
-	    }
-	    alert('Primary email: ' +	primaryEmail + '\n\nFull Response:\n' + JSON.stringify(resp));
-	  }
-	$scope.loginCallbackGoogle = function(data){
-		gapi.client.load('plus', 'v1', apiClientLoaded);
+	$scope.loginCallbackGoogle = function(test){
 		var flag= true;
 		/*for(var i in validUsers){ // loop on users array
 			if($scope.user.username == validUsers[i].username && $scope.user.password == validUsers[i].password){
@@ -298,7 +452,20 @@ function particlesCtrl($scope,$http) {
 			$scope.showSuccess = false;
 		}
 	}
-
+	$scope.ShowLogin = function(){
+		$scope.ShowLoginForm = !($scope.ShowLoginForm);
+	}
+	$scope.ShowLoginOptions = function(){
+		$scope.LoginOptions = !($scope.LoginOptions);
+		$scope.showParticles = !($scope.showParticles);
+		if(!$scope.LoginOptions){
+			$scope.ShowLoginForm = false;
+			$scope.RegistrationForm = false;
+		}
+	}
+	$scope.ShowRegistrationForm = function(){
+		$scope.RegistrationForm = !($scope.RegistrationForm);
+	}
 	$scope.authenticate = function (){
 		 var myParams = {
 			'clientid' : '914568398758-pdf9nqmfmtdaqi75sbarikfstojd9bag.apps.googleusercontent.com',
