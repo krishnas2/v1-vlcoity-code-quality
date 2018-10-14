@@ -12,7 +12,7 @@ access_token='',
 access_token='',
 instance_url='',
 squery='/services/data/v41.0/query/?q=';
-
+app.use(express.static(__dirname+'/public'));
 app.use(express.static(__dirname + '/node_modules'));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded());
