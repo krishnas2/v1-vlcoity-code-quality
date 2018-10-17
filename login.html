@@ -325,6 +325,7 @@ color:white!important;
             <div class="col-md-12">
               <div ng-show="showError" class="alert alert-danger">Wrong credentials!</div>
               <div ng-show="showSuccess" class="alert alert-success">Login Successful! Redirecting... Please wait</div>
+		    <div ng-show="showCaptchaError" class="alert alert-danger">Please verify Captcha</div>
             </div>
           </div>
         </div>
@@ -474,6 +475,7 @@ function particlesCtrl($scope,$http) {
 		 let P = $scope.Login.password;
 		let captchatoken = grecaptcha.getResponse();
 		if(captchatoken != ""){
+			$scope.showCaptchaError = false;
 			$http.post('https://vlocity-codescan.herokuapp.com/api/login',{"email":U,"password":P}).then(function(response){
 			 var Registration = $scope.RegistrationForm;
 			 console.log(response);
@@ -518,6 +520,9 @@ function particlesCtrl($scope,$http) {
 					$scope.showSuccess = false;
 				 }
 		});
+		}
+		else{
+			$scope.showCaptchaError = true;
 		}
 		 
 	}
