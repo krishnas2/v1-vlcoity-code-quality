@@ -274,14 +274,16 @@ color:white!important;
             <div class="col-md-12">
               <div class="form-group">
                 <button ng-click="RegisterUser()" ng-disabled="Registration.$invalid" class="btn btn-success pull-right">Go</button>
+		      <div class="g-recaptcha" data-sitekey="6LeafHUUAAAAAJizUN0We9iCkMpdNy1GpqAdjGsQ"></div>
                 <div class="clearfix"></div>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-12">
-              <div ng-show="showRegistrationError" class="alert alert-danger">Wrong credentials!</div>
+              <div ng-show="showRegistrationError" class="alert alert-danger">Verify the registration details entered.</div>
               <div ng-show="showRegistrationSuccess" class="alert alert-success">Registration Successful! Redirecting... Please wait</div>
+		    <div ng-show="showRegistrationCaptchaError" class="alert alert-danger">Please verify Captcha</div>
             </div>
           </div>
         </div>
@@ -536,12 +538,17 @@ function particlesCtrl($scope,$http) {
 		let P = $scope.user.password;
 		let CP = $scope.user.Confirmpassword;
 		let N = $scope.user.ContactNo;
+		let captchatoken = grecaptcha.getResponse();
+		$scope.showRegistrationCaptchaError = false;
+		$scope.showRegistrationError = false;
 		if(P != CP){
-			
+			$scope.showRegistrationError = true;
 		} else if(E.indexOf('@') < 0){
-			
+			$scope.showRegistrationError = true;
 		} else if(N.length != 10){
-		
+			$scope.showRegistrationError = true;
+		} else if(captchatoken == ""){
+			  $scope.showRegistrationCaptchaError = true;
 		}
 		else{
 			$http.post("https://vlocity-codescan.herokuapp.com/api/register",{"name":U,"email":E,"password":P}).then(function(response){
