@@ -474,6 +474,9 @@ function particlesCtrl($scope,$http) {
 		 let U = $scope.Login.username;
 		 let P = $scope.Login.password;
 		let captchatoken = grecaptcha.getResponse();
+		$scope.showError = false;
+		$scope.showSuccess = false;
+		$scope.showCaptchaError = false;
 		if(captchatoken != ""){
 			$scope.showCaptchaError = false;
 			$http.post('https://vlocity-codescan.herokuapp.com/api/login',{"email":U,"password":P}).then(function(response){
