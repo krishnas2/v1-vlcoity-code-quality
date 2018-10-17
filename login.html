@@ -472,7 +472,9 @@ function particlesCtrl($scope,$http) {
 		 var Registration = $scope.RegistrationForm;
 		 let U = $scope.Login.username;
 		 let P = $scope.Login.password;
-		 $http.post('https://vlocity-codescan.herokuapp.com/api/login',{"email":U,"password":P}).then(function(response){
+		let captchatoken = grecaptcha.getResponse();
+		if(captchatoken != ""){
+			$http.post('https://vlocity-codescan.herokuapp.com/api/login',{"email":U,"password":P}).then(function(response){
 			 var Registration = $scope.RegistrationForm;
 			 console.log(response);
 			 if(response.statusText == "OK"){
@@ -516,6 +518,8 @@ function particlesCtrl($scope,$http) {
 					$scope.showSuccess = false;
 				 }
 		});
+		}
+		 
 	}
 
 	$scope.RegisterUser = function(){
