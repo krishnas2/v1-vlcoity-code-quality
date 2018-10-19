@@ -516,7 +516,7 @@ f='d';
 		   client.emit('sfdccomslog', 'Execution Started');
 	client.emit('sfdccomslog', 'connection established');
 	client.emit('sfdccoms', 100);
-		access_token=data["Handshake#access_token"];
+		access_token=data.token_type+' '+data["Handshake#access_token"];
 		   instance_url=data.instance_url.split('/')[2];
 console.log(access_token,instance_url);
     });
